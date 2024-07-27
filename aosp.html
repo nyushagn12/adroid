@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Android Launcher</title>
+    <style>
+        body {
+            background: url('android.png') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            align-items: flex-end;
+            height: 100vh;
+            margin: 0;
+            padding: 100px; /* Offset from the edges of the screen */
+            box-sizing: border-box;
+            position: relative;
+        }
+        .app-button {
+            width: 100px;
+            height: 100px;
+            background-color: white;
+            border-radius: 50%;
+            margin: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.5s ease;
+            position: relative;
+            z-index: 1;
+        }
+        .app-button img {
+            width: 50%;
+            height: 50%;
+        }
+        .home-button {
+            width: 100px;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.5s ease;
+            position: absolute;
+            bottom: 20px; /* Distance from the bottom */
+            left: calc(50% - 50px); /* Center horizontally */
+            z-index: 3; /* Ensure it overlays other elements */
+            background: transparent; /* Make background transparent */
+            border: none; /* Remove any default border */
+        }
+        .home-button img {
+            width: 500%;
+            height: 25%;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-button">
+        <img src="icon1.png" alt="App 1">
+    </div>
+    <div class="app-button">
+        <img src="icon2.png" alt="App 2">
+    </div>
+    <div class="app-button">
+        <img src="icon3.png" alt="App 3">
+    </div>
+    <div class="app-button">
+        <img src="icon4.png" alt="App 4">
+    </div>
+    <!-- Add more app buttons as needed -->
+
+    <div class="home-button">
+        <img src="home.png" alt="Home">
+    </div>
+
+    <script>
+        const appButtons = document.querySelectorAll('.app-button');
+        const homeButton = document.querySelector('.home-button');
+
+        appButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const rect = button.getBoundingClientRect();
+                const centerX = window.innerWidth / 2 - rect.width / 2;
+                const centerY = window.innerHeight / 2 - rect.height / 2;
+
+                button.style.transition = 'transform 1s ease';
+                button.style.transform = `translate(${centerX - rect.left}px, ${centerY - rect.top}px) scale(10)`;
+                button.style.zIndex = '2';
+
+                appButtons.forEach(btn => {
+                    if (btn !== button) {
+                        btn.style.zIndex = '1';
+                    }
+                });
+            });
+        });
+
+        homeButton.addEventListener('click', () => {
+            appButtons.forEach(button => {
+                button.style.transform = '';
+                button.style.transition = 'transform 1s ease';
+            });
+        });
+    </script>
+</body>
+</html>
